@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-const LS_FAV_KEY = 'rfk'
+export const LS_FAV_KEY = 'rfk'
 
 interface GithubState {
   favourites: string[]
@@ -16,14 +16,13 @@ const githubSlice = createSlice({
   reducers: {
     addFavourite: (state, actions: PayloadAction<string>) => {
       state.favourites.push(actions.payload)
-      localStorage.setItem(LS_FAV_KEY, JSON.stringify(actions.payload))
+      localStorage.setItem(LS_FAV_KEY, JSON.stringify(state.favourites))
     },
     removeFavourite: (state, actions: PayloadAction<string>) => {
       state.favourites = state.favourites.filter((f) => f !== actions.payload)
-      localStorage.setItem(LS_FAV_KEY, JSON.stringify(actions.payload))
+      localStorage.setItem(LS_FAV_KEY, JSON.stringify(state.favourites))
     },
   },
 })
 
-export const githubActions = githubSlice.actions
-export const githubReducer = githubSlice.reducer
+export const { actions, reducer } = githubSlice

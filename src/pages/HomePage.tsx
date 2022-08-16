@@ -5,8 +5,14 @@ import {
 } from '../store/github/github.api'
 import { useDebounce } from '../hooks/debounce'
 import { RepoCard } from '../components/RepoCard'
+import { useAppSelector } from '../store/hooks'
 
 export default function HomePage() {
+  const { favourites } = useAppSelector((state) => state.github)
+  console.log(
+    '🚀 ~ file: HomePage.tsx ~ line 12 ~ HomePage ~ favourites',
+    favourites
+  )
   const [search, setSearch] = useState('')
   const [dropdown, setDropdown] = useState(false)
   const debounced = useDebounce(search)
@@ -14,6 +20,7 @@ export default function HomePage() {
     skip: debounced.length < 3,
     refetchOnFocus: true,
   })
+
   const [fetchRepos, { isLoading: areReposLoading, data: repos }] =
     useLazyGetUserReposQuery()
 
